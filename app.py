@@ -7,6 +7,7 @@ from PIL import Image
 # =========== load data ===
 dataset = pd.read_excel('workFindingProgress.xlsx', usecols='A,B,C,D,G,I')
 dataset_job_boards = pd.read_excel('workFindingProgress.xlsx', usecols='D')
+dataset_job_location = pd.read_excel('workFindingProgress.xlsx', usecols='I')
 
 
 st.set_page_config(page_title='ok', layout='wide')
@@ -73,4 +74,21 @@ fig.update_xaxes(type='category', tickangle = 45)
 st.plotly_chart(fig)
 
 
-# =========== country of position diagram ===
+# =========== country of position diagram values ===
+israel_count = dataset.query('COUNTRY_OF_POSITION == "Israel"')['COUNTRY_OF_POSITION'].count()
+bulgaria_count = dataset.query('COUNTRY_OF_POSITION == "Bulgaria"')['COUNTRY_OF_POSITION'].count()
+remote_count = dataset.query('COUNTRY_OF_POSITION == "Remote"')['COUNTRY_OF_POSITION'].count()
+
+countries_count = dataset['COUNTRY_OF_POSITION'].count()
+
+others_count = [israel_count, bulgaria_count, remote_count, countries_count-israel_count-bulgaria_count-remote_count]
+dataset_job_location.dropna(inplace=True)
+
+
+# =========== COUNTRY_OF_POSITION round diagram ===
+pie_ch = px.pie(dataset_job_location, 
+                   title='Position location', 
+                   names=['Israel', 'Bulgaria', 'Remote', 'Others'], 
+                   values=others_count)
+
+st.plotly_chart(pie_ch)  
