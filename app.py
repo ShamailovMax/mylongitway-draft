@@ -4,6 +4,11 @@ import plotly.express as px
 from PIL import Image
 
 
+# =========== pdf summary report of website ===
+def create_pdf_report():
+    pass
+
+
 # =========== load data ===
 dataset = pd.read_excel('workFindingProgress.xlsx', usecols='A,B,C,D,G,I')
 dataset_job_boards = pd.read_excel('workFindingProgress.xlsx', usecols='D')
